@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Team Green — Investor Report — CESIM Global Challenge</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root{--red:#C41230;--rdk:#9e0e26;--rlt:#fdf0f2;--green:#2e7d32;--bdr:#ddd;--glt2:#f5f5f5;--wht:#fff;--txt:#1a1a1a;--muted:#666;--fn:'Segoe UI','Helvetica Neue',Arial,sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-family:var(--fn);font-size:14px;color:var(--txt);background:var(--glt2)}
+.header{background:var(--red);color:#fff;padding:0 24px;display:flex;align-items:center;gap:16px;height:56px;border-bottom:2px solid var(--rdk);position:sticky;top:0;z-index:200}
+.hbrand{font-size:18px;font-weight:700;letter-spacing:.03em;line-height:1}
+.hbrand span{font-weight:300;opacity:.85;font-size:14px;display:block}
+.hright{margin-left:auto;display:flex;align-items:center;gap:12px}
+.htag{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);border-radius:4px;padding:3px 10px;font-size:12px;font-weight:600}
+.tbadge{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 12px;font-size:13px;font-weight:600}
+.tdot{width:10px;height:10px;border-radius:50%;background:#4caf50}
+.nav{background:var(--rdk);display:flex;padding:0 16px;border-bottom:1px solid rgba(0,0,0,.2);overflow-x:auto;position:sticky;top:56px;z-index:200}
+.ntab{color:rgba(255,255,255,.7);padding:12px 20px;font-size:13px;font-weight:500;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;transition:all .15s;user-select:none}
+.ntab:hover{color:#fff;background:rgba(255,255,255,.08)}
+.ntab.active{color:#fff;border-bottom-color:#fff}
+.page{display:none;padding:20px 24px;max-width:1400px;margin:0 auto}
+.page.active{display:block}
+.card{background:var(--wht);border:1px solid var(--bdr);border-radius:4px;overflow:hidden;margin-bottom:16px}
+.card-hd{border-bottom:2px solid var(--red);padding:10px 14px;font-size:13px;font-weight:600;color:var(--red)}
+.card-bd{padding:14px}
+.kgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:16px}
+.kpi{background:var(--wht);border:1px solid var(--bdr);border-top:3px solid var(--red);border-radius:4px;padding:14px 16px}
+.klbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.kval{font-size:26px;font-weight:700;color:var(--txt);line-height:1}
+.ksub{font-size:11px;color:var(--muted);margin-top:4px}
+.up{color:#2e7d32}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.cw{position:relative}
+.h200{height:200px}.h240{height:240px}.h280{height:280px}
+table.dt{width:100%;border-collapse:collapse;font-size:12px}
+table.dt th{background:var(--red);color:#fff;padding:8px 10px;text-align:left;font-weight:600;font-size:11px;letter-spacing:.04em}
+table.dt td{padding:7px 10px;border-bottom:1px solid #eee;vertical-align:middle}
+table.dt tr:last-child td{border-bottom:none}
+table.dt tr:nth-child(even) td{background:#fafafa}
+.bdg{display:inline-block;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:600}
+.bg{background:#e8f5e9;color:#2e7d32}
+.br{background:#fde8ec;color:#c41230}
+.ba{background:#fff8e1;color:#f57f17}
+.bb{background:#e3f2fd;color:#1565c0}
+.tbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.tbtn{padding:4px 12px;border-radius:3px;border:1px solid var(--bdr);background:var(--wht);font-size:12px;cursor:pointer;font-family:var(--fn);color:var(--muted);transition:all .12s}
+.tbtn.on{font-weight:600}
+.inv3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
+.icard{border-radius:4px;overflow:hidden;border:1px solid var(--bdr)}
+.icard.rec{border:2px solid var(--red)}
+.ichd{padding:14px 16px;font-size:14px;font-weight:600;display:flex;align-items:flex-start;gap:10px;line-height:1.4}
+.ichd-icon{font-size:20px;flex-shrink:0}
+.icbd{padding:14px 16px;font-size:13px;color:#444;line-height:1.7;border-top:1px solid #eee}
+.im{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #eee;font-size:12px}
+.im:last-child{border-bottom:none}
+@media(max-width:900px){.kgrid{grid-template-columns:repeat(3,1fr)}.g2,.g3,.inv3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div style="display:flex;align-items:center;gap:10px">
+    <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+      <circle cx="17" cy="17" r="17" fill="rgba(255,255,255,.15)"/>
+      <circle cx="17" cy="17" r="13" stroke="white" stroke-width="1.5" fill="none"/>
+      <ellipse cx="17" cy="17" rx="6" ry="13" stroke="white" stroke-width="1.2" fill="none"/>
+      <line x1="4" y1="17" x2="30" y2="17" stroke="white" stroke-width="1.2"/>
+      <line x1="7" y1="10" x2="27" y2="10" stroke="white" stroke-width="1"/>
+      <line x1="7" y1="24" x2="27" y2="24" stroke="white" stroke-width="1"/>
+    </svg>
+    <div class="hbrand">CESIM <span>Global Challenge</span></div>
+  </div>
+  <span style="color:rgba(255,255,255,.4);margin:0 4px">|</span>
+  <span style="font-size:13px;opacity:.85">Shareholder &amp; Investor Report — Rounds 1 to 8</span>
+  <div class="hright">
+    <span class="htag">Game over</span>
+    <span class="htag">Round 8</span>
+    <span class="tbadge"><span class="tdot"></span>Team GREEN</span>
+  </div>
+</div>
+
+<div class="nav">
+  <div class="ntab active" onclick="show(0)">Overview</div>
+  <div class="ntab"        onclick="show(1)">Company results</div>
+  <div class="ntab"        onclick="show(2)">Market comparison</div>
+  <div class="ntab"        onclick="show(3)">CSR &amp; HR</div>
+  <div class="ntab"        onclick="show(4)">Investment thesis</div>
+</div>
+
+<!-- ════ TAB 0 — OVERVIEW ════════════════════════════════ -->
+<div class="page active" id="p0">
+  <div class="kgrid">
+    <div class="kpi"><div class="klbl">Revenue R8</div><div class="kval">$130.3M</div><div class="ksub">Peak: $150.4M (R7)</div></div>
+    <div class="kpi"><div class="klbl">Net profit R8</div><div class="kval">$11.3M</div><div class="ksub up">Best in 8 rounds</div></div>
+    <div class="kpi"><div class="klbl">Cumulative TSR</div><div class="kval">18.16%</div><div class="ksub">2nd — NAVY: 21.0%</div></div>
+    <div class="kpi"><div class="klbl">H2 share R8</div><div class="kval">100%</div><div class="ksub up">Global monopoly</div></div>
+    <div class="kpi"><div class="klbl">Turnover R8</div><div class="kval">0.64%</div><div class="ksub up">Lowest in market</div></div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd">Revenue, EBITDA &amp; net profit — 8 rounds ($M)</div>
+      <div class="card-bd"><div class="cw h280"><canvas id="c0a"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-hd">Cumulative TSR — all teams (%)</div>
+      <div class="card-bd"><div class="cw h280"><canvas id="c0b"></canvas></div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-hd">8-year financial summary</div>
+    <div class="card-bd" style="overflow-x:auto">
+      <table class="dt">
+        <thead><tr><th>Metric</th><th>R1</th><th>R2</th><th>R3</th><th>R4</th><th>R5</th><th>R6</th><th>R7</th><th>R8</th></tr></thead>
+        <tbody>
+          <tr><td>Revenue ($M)</td><td>44.4</td><td>47.9</td><td>70.7</td><td>74.6</td><td>101.8</td><td>125.5</td><td>150.4</td><td><b>130.3</b></td></tr>
+          <tr><td>EBITDA ($M)</td><td>6.2</td><td>0.7</td><td>5.2</td><td>11.9</td><td>13.5</td><td>12.1</td><td>10.7</td><td><b>16.5</b></td></tr>
+          <tr><td>EBITDA margin</td><td>14.0%</td><td>1.5%</td><td>7.4%</td><td>15.9%</td><td>13.3%</td><td>9.6%</td><td>7.1%</td><td><b>12.7%</b></td></tr>
+          <tr><td>Net profit ($M)</td><td>3.0</td><td style="color:#C41230">-3.6</td><td>1.3</td><td>8.4</td><td>9.0</td><td>7.6</td><td>6.7</td><td><b>11.3</b></td></tr>
+          <tr><td>Cumul. TSR (%)</td><td>18.2</td><td style="color:#C41230">-14.7</td><td>-4.7</td><td>8.2</td><td>15.1</td><td>18.1</td><td>18.5</td><td><b>18.16</b></td></tr>
+          <tr><td>H2 global share</td><td>—</td><td>80.2%</td><td>75.7%</td><td>20.8%</td><td>68.6%</td><td>76.7%</td><td>67.8%</td><td><b>100%</b></td></tr>
+          <tr><td>Hybrid global share</td><td>13.0%</td><td>21.1%</td><td>18.5%</td><td>17.2%</td><td>19.9%</td><td>22.3%</td><td>28.8%</td><td><b>24.7%</b></td></tr>
+          <tr><td>Turnover</td><td>4.1%</td><td>0.98%</td><td>0.72%</td><td>0.89%</td><td>1.01%</td><td>0.92%</td><td>0.73%</td><td><b>0.64%</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ════ TAB 1 — COMPANY RESULTS ═════════════════════════ -->
+<div class="page" id="p1">
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd">P&amp;L overview — revenue / EBITDA / net profit ($M)</div>
+      <div class="card-bd"><div class="cw h280"><canvas id="c1a"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-hd">Cost structure breakdown — R5 to R8 ($M)</div>
+      <div class="card-bd"><div class="cw h280"><canvas id="c1b"></canvas></div></div>
+    </div>
+  </div>
+  <div class="g3">
+    <div class="card">
+      <div class="card-hd">Hydrogen market share by region (%)</div>
+      <div class="card-bd"><div class="cw h240"><canvas id="c1c"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-hd">Hybrid global market share (%)</div>
+      <div class="card-bd"><div class="cw h240"><canvas id="c1d"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-hd">R8 contribution margin by segment ($M)</div>
+      <div class="card-bd"><div class="cw h240"><canvas id="c1e"></canvas></div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-hd">8-year financial summary</div>
+    <div class="card-bd" style="overflow-x:auto">
+      <table class="dt">
+        <thead><tr><th>Metric</th><th>R1</th><th>R2</th><th>R3</th><th>R4</th><th>R5</th><th>R6</th><th>R7</th><th>R8</th></tr></thead>
+        <tbody>
+          <tr><td>Revenue ($M)</td><td>44.4</td><td>47.9</td><td>70.7</td><td>74.6</td><td>101.8</td><td>125.5</td><td>150.4</td><td><b>130.3</b></td></tr>
+          <tr><td>EBITDA ($M)</td><td>6.2</td><td>0.7</td><td>5.2</td><td>11.9</td><td>13.5</td><td>12.1</td><td>10.7</td><td><b>16.5</b></td></tr>
+          <tr><td>Net profit ($M)</td><td>3.0</td><td style="color:#C41230">-3.6</td><td>1.3</td><td>8.4</td><td>9.0</td><td>7.6</td><td>6.7</td><td><b>11.3</b></td></tr>
+          <tr><td>H2 global share</td><td>—</td><td>80.2%</td><td>75.7%</td><td>20.8%</td><td>68.6%</td><td>76.7%</td><td>67.8%</td><td><b>100%</b></td></tr>
+          <tr><td>Hybrid global share</td><td>13.0%</td><td>21.1%</td><td>18.5%</td><td>17.2%</td><td>19.9%</td><td>22.3%</td><td>28.8%</td><td><b>24.7%</b></td></tr>
+          <tr><td>Turnover</td><td>4.1%</td><td>0.98%</td><td>0.72%</td><td>0.89%</td><td>1.01%</td><td>0.92%</td><td>0.73%</td><td><b>0.64%</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ════ TAB 2 — MARKET COMPARISON ══════════════════════ -->
+<div class="page" id="p2">
+  <div class="tbar" id="toggles"></div>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd">Revenue R5 to R8 — all teams ($M)</div>
+      <div class="card-bd"><div class="cw h280"><canvas id="c2a"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-hd">Cumulative TSR — final ranking (%)</div>
+      <div class="card-bd"><div class="cw h280"><canvas id="c2b"></canvas></div></div>
+    </div>
+  </div>
+  <div class="g3">
+    <div class="card">
+      <div class="card-hd">GREEN — market share by segment (%)</div>
+      <div class="card-bd"><div class="cw h200"><canvas id="c2c"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-hd">GREEN — EBITDA margin evolution (%)</div>
+      <div class="card-bd"><div class="cw h200"><canvas id="c2d"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-hd">R8 revenue ranking — all teams ($M)</div>
+      <div class="card-bd"><div class="cw h200"><canvas id="c2e"></canvas></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ TAB 3 — CSR & HR ═════════════════════════════════ -->
+<div class="page" id="p3">
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd">Employee turnover — GREEN vs. market average (%)</div>
+      <div class="card-bd"><div class="cw h240"><canvas id="c3a"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-hd">ESG scores — GREEN R1 to R8</div>
+      <div class="card-bd"><div class="cw h240"><canvas id="c3b"></canvas></div></div>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hd">R8 — ESG reputation, all teams</div>
+      <div class="card-bd"><div class="cw h200"><canvas id="c3c"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-hd">Monthly wage — GREEN vs. market range ($)</div>
+      <div class="card-bd"><div class="cw h200"><canvas id="c3d"></canvas></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ TAB 4 — INVESTMENT THESIS ══════════════════════ -->
+<div class="page" id="p4">
+  <div class="inv3">
+
+    <div class="icard">
+      <div class="ichd" style="background:#e3f2fd;color:#0d47a1">
+        <span class="ichd-icon">&#9889;</span>
+        <div>Option A — Enter the electric market</div>
+      </div>
+      <div class="icbd">
+        We currently hold 0% of the electric segment, while RED CAR (44%) and PINK TEAM (25%) are already dominant. Given that electric demand has grown continuously across all regions and infrastructure coverage is forecast to reach 70 to 80% globally by Round 12, entering now represents a strategic growth window before the market fully consolidates.
+        <hr style="margin:12px 0;border-color:#eee">
+        <div class="im"><span>Investment required</span><span><b>$8 to 12M R&amp;D per round</b></span></div>
+        <div class="im"><span>Target markets</span><span>USA &amp; China</span></div>
+        <div class="im"><span>Execution risk</span><span><span class="bdg ba">Medium to High</span></span></div>
+      </div>
+    </div>
+
+    <div class="icard rec">
+      <div class="ichd" style="background:#fdf0f2;color:#C41230">
+        <span class="ichd-icon">&#9733;</span>
+        <div>Option B — Intensify hydrogen</div>
+      </div>
+      <div class="icbd">
+        We hold 100% of the global hydrogen market and hydrogen infrastructure is still accelerating — reaching 67% in the USA and 52% in Europe by Round 12. Doubling down deepens our structural moat, locks out competitors, and reinforces our position as the undisputed leader in the highest-growth, lowest-competition segment.
+        <hr style="margin:12px 0;border-color:#eee">
+        <div class="im"><span>Investment required</span><span><b>$3 to 5M R&amp;D per round</b></span></div>
+        <div class="im"><span>Target markets</span><span>USA (monopoly) + Europe</span></div>
+        <div class="im"><span>Execution risk</span><span><span class="bdg bg">Low</span></span></div>
+      </div>
+    </div>
+
+    <div class="icard">
+      <div class="ichd" style="background:#e8f5e9;color:#1b5e20">
+        <span class="ichd-icon">&#8595;</span>
+        <div>Option C — Phase out combustion</div>
+      </div>
+      <div class="icbd">
+        Combustion demand is declining globally and contribution margins are near zero in most markets. The production and feature costs required to remain competitive are no longer justified by the returns. A phased exit over 3 rounds frees capacity and budget for hydrogen and hybrid — the two segments with the strongest long-term trajectory.
+        <hr style="margin:12px 0;border-color:#eee">
+        <div class="im"><span>Cost savings</span><span><b>$12 to 18M per round</b></span></div>
+        <div class="im"><span>Timeline</span><span>3-round phased exit</span></div>
+        <div class="im"><span>Execution risk</span><span><span class="bdg bg">Low</span></span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+Chart.defaults.font.family = "'Segoe UI', Arial, sans-serif";
+Chart.defaults.font.size = 11;
+Chart.defaults.color = '#666';
+
+const TEAMS = ['GREEN','RED CAR','SKY BLUE','ORANGE','GreenPulse','OCHRE','PINK TEAM','NAVY'];
+const TC = {
+  'GREEN':'#2e7d32','RED CAR':'#C41230','SKY BLUE':'#1565c0',
+  'ORANGE':'#e65100','GreenPulse':'#00695c','OCHRE':'#f9a825',
+  'PINK TEAM':'#ad1457','NAVY':'#37474f'
+};
+const RND = ['R1','R2','R3','R4','R5','R6','R7','R8'];
+
+const D = {
+  rev:    [44.4,47.9,70.7,74.6,101.8,125.5,150.4,130.3],
+  ebitda: [6.2,0.68,5.2,11.9,13.5,12.1,10.7,16.5],
+  profit: [3.0,-3.6,1.3,8.4,9.0,7.6,6.7,11.3],
+  margin: [14.0,1.5,7.4,15.9,13.3,9.6,7.1,12.7],
+  h2g:    [0,80.2,75.7,20.8,68.6,76.7,67.8,100],
+  h2u:    [0,100,100,100,100,64.7,60.5,100],
+  h2e:    [0,64.9,65.8,16.8,63.9,100,79.9,100],
+  hyb:    [13,21.1,18.5,17.2,19.9,22.3,28.8,24.7],
+  comb:   [9.6,3.5,4.4,4.9,7.7,15.0,19.5,14.2],
+  esg_s:  [2.94,4.15,3.59,3.28,3.73,3.48,3.78,3.50],
+  esg_r:  [2.99,3.12,3.20,3.23,3.41,3.53,3.64,3.66],
+  esgR8:  [3.66,3.21,3.01,3.31,3.32,2.31,3.27,3.48],
+  turnAvg:[1.78,1.08,2.26,1.45],
+  wageMax:[8000,8000,9000,10000],
+  wageMin:[6000,6900,6000,6000],
+  tsrAll: {
+    'GREEN':    [18.2,-14.7,-4.7,8.2,15.1,18.1,18.5,18.16],
+    'RED CAR':  [12,10,15,18,25.7,17.9,17.8,15.37],
+    'SKY BLUE': [8,5,10,12.8,12.8,2.8,1.2,-2.32],
+    'ORANGE':   [5,3,-1,-2,9.5,5.4,-0.3,0.76],
+    'GreenPulse':[12,8,14,18,20.7,21.3,19.2,16.02],
+    'OCHRE':    [6,-5,-8,-7.1,-3.6,2.4,-2.3,2.41],
+    'PINK TEAM':[10,9,13,15,15,17.1,13.6,15.79],
+    'NAVY':     [20,22,25,30,30.2,26.8,22.2,21.00],
+  },
+  tsrF:   [18.16,15.37,-2.32,0.76,16.02,2.41,15.79,21.00],
+  allrev: {
+    R5:[101.8,76.8,72.7,98.9,64.6,57.3,75.2,83.8],
+    R6:[125.5,73.3,66.9,80.2,71.7,47.1,86.0,88.0],
+    R7:[150.4,87.1,55.8,58.9,61.0,40.1,71.4,87.6],
+    R8:[130.3,101.6,49.2,49.1,64.3,43.2,107.5,85.9],
+  },
+};
+
+const charts = {};
+function mk(id, cfg) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  if (charts[id]) { charts[id].destroy(); delete charts[id]; }
+  charts[id] = new Chart(el, cfg);
+}
+
+function lineCfg(labels, datasets, yFmt) {
+  return {
+    type: 'line',
+    data: { labels, datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: true, position: 'top', labels: { boxWidth: 10, padding: 8, font: { size: 11 } } } },
+      scales: {
+        x: { grid: { color: '#f0f0f0' } },
+        y: { grid: { color: '#f0f0f0' }, ticks: { callback: yFmt || (v => v) } },
+      },
+      elements: { line: { tension: .3 }, point: { radius: 3 } },
+    },
+  };
+}
+
+function barCfg(labels, datasets, opts = {}) {
+  return {
+    type: 'bar',
+    data: { labels, datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      indexAxis: opts.h ? 'y' : 'x',
+      plugins: { legend: { display: opts.leg !== false, position: 'top', labels: { boxWidth: 10, padding: 8, font: { size: 11 } } } },
+      scales: {
+        x: { stacked: opts.st || false, grid: { color: '#f0f0f0' } },
+        y: { stacked: opts.st || false, grid: { color: '#f0f0f0' }, ticks: { callback: opts.yFmt || (v => v) } },
+      },
+    },
+  };
+}
+
+function mixedCfg(labels, datasets) {
+  return {
+    type: 'bar',
+    data: { labels, datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: true, position: 'top', labels: { boxWidth: 10, padding: 8, font: { size: 11 } } } },
+      scales: {
+        x: { grid: { color: '#f0f0f0' } },
+        y:  { position: 'left',  grid: { color: '#f0f0f0' }, ticks: { callback: v => '$' + v + 'M' } },
+        y1: { position: 'right', grid: { display: false },   ticks: { callback: v => '$' + v + 'M' } },
+      },
+    },
+  };
+}
+
+const vis = new Set(TEAMS);
+const built = {};
+
+function buildTab(i) {
+  if (built[i]) return;
+  built[i] = true;
+
+  if (i === 0) {
+    mk('c0a', mixedCfg(RND, [
+      { label: 'Revenue', data: D.rev, backgroundColor: 'rgba(196,18,48,.15)', borderColor: '#C41230', borderWidth: 1.5, order: 2 },
+      { label: 'EBITDA',  data: D.ebitda, type: 'line', borderColor: '#f9a825', borderWidth: 2, fill: false, pointRadius: 3, order: 1, yAxisID: 'y1' },
+      { label: 'Net Profit', data: D.profit, type: 'line', borderColor: '#2e7d32', borderWidth: 2, fill: false, pointRadius: 3, order: 1, yAxisID: 'y1' },
+    ]));
+    mk('c0b', lineCfg(RND, TEAMS.map(t => ({
+      label: t, data: D.tsrAll[t], borderColor: TC[t], backgroundColor: 'transparent',
+      borderWidth: t === 'GREEN' ? 3 : 1.5, borderDash: t === 'GREEN' ? [] : [4, 3],
+      pointRadius: t === 'GREEN' ? 4 : 2,
+    })), v => v + '%'));
+  }
+
+  if (i === 1) {
+    mk('c1a', mixedCfg(RND, [
+      { label: 'Revenue', data: D.rev, backgroundColor: 'rgba(196,18,48,.15)', borderColor: '#C41230', borderWidth: 1.5, order: 2 },
+      { label: 'EBITDA',  data: D.ebitda, type: 'line', borderColor: '#f9a825', borderWidth: 2, fill: false, pointRadius: 3, order: 1, yAxisID: 'y1' },
+      { label: 'Net Profit', data: D.profit, type: 'line', borderColor: '#2e7d32', borderWidth: 2, fill: false, pointRadius: 3, order: 1, yAxisID: 'y1' },
+    ]));
+    mk('c1b', barCfg(['R5','R6','R7','R8'], [
+      { label: 'In-house mfg.',  data: [44.6,34.2,48.2,33.1], backgroundColor: '#C41230', borderRadius: 0 },
+      { label: 'Feature costs',  data: [19.5,31.3,39.0,33.3], backgroundColor: '#E57373', borderRadius: 0 },
+      { label: 'Contract mfg.',  data: [11.9,35.2,37.7,33.1], backgroundColor: '#7B1FA2', borderRadius: 0 },
+      { label: 'Other',          data: [12.4,12.7,14.8,14.5], backgroundColor: '#ccc',    borderRadius: 0 },
+    ], { st: true, yFmt: v => '$' + v + 'M' }));
+    mk('c1c', lineCfg(['R2','R3','R4','R5','R6','R7','R8'], [
+      { label: 'Global', data: D.h2g.slice(1), borderColor: '#1565c0', borderWidth: 2, fill: false },
+      { label: 'USA',    data: D.h2u.slice(1), borderColor: '#2e7d32', borderWidth: 2, fill: false, borderDash: [4,2] },
+      { label: 'Europe', data: D.h2e.slice(1), borderColor: '#f9a825', borderWidth: 2, fill: false, borderDash: [2,2] },
+    ], v => v + '%'));
+    mk('c1d', lineCfg(RND, [
+      { label: 'Hybrid global %', data: D.hyb, borderColor: '#f9a825', backgroundColor: 'rgba(249,168,37,.1)', fill: true, borderWidth: 2 },
+    ], v => v + '%'));
+    mk('c1e', barCfg(
+      ['USA Hybrid','USA H2','China Comb.','China Hybrid','EU Hybrid','EU H2'],
+      [{ label: 'Contribution ($M)', data: [3.7,4.9,0.6,3.0,1.2,2.2],
+         backgroundColor: ['#2e7d32','#1565c0','#E57373','#2e7d32','#f9a825','#1565c0'], borderRadius: 2 }],
+      { h: true, leg: false }
+    ));
+  }
+
+  if (i === 2) {
+    buildMarket();
+    mk('c2c', lineCfg(RND, [
+      { label: 'Hydrogen',   data: D.h2g,  borderColor: '#1565c0', borderWidth: 2, fill: false },
+      { label: 'Hybrid',     data: D.hyb,  borderColor: '#f9a825', borderWidth: 2, fill: false },
+      { label: 'Combustion', data: D.comb, borderColor: '#C41230', borderWidth: 2, fill: false },
+    ], v => v + '%'));
+    mk('c2d', barCfg(RND, [
+      { label: 'EBITDA margin %', data: D.margin,
+        backgroundColor: D.margin.map((_, i) => i === 7 ? '#2e7d32' : 'rgba(196,18,48,.7)'), borderRadius: 2 },
+    ], { leg: false, yFmt: v => v + '%' }));
+    mk('c2e', barCfg(TEAMS, [
+      { label: 'Revenue R8 ($M)', data: D.allrev.R8,
+        backgroundColor: TEAMS.map(t => t === 'GREEN' ? '#C41230' : '#ccc'), borderRadius: 2 },
+    ], { h: true, leg: false }));
+  }
+
+  if (i === 3) {
+    mk('c3a', lineCfg(['R5','R6','R7','R8'], [
+      { label: 'GREEN',       data: [1.01,0.92,0.73,0.64], borderColor: '#2e7d32', borderWidth: 3, fill: false, pointRadius: 4 },
+      { label: 'Market avg.', data: D.turnAvg,              borderColor: '#aaa',    borderWidth: 1.5, fill: false, borderDash: [4,2] },
+    ], v => v.toFixed(2) + '%'));
+    mk('c3b', lineCfg(RND, [
+      { label: 'Social (S)',      data: D.esg_s, borderColor: '#2e7d32', borderWidth: 2, fill: false },
+      { label: 'ESG Reputation',  data: D.esg_r, borderColor: '#1565c0', borderWidth: 2, fill: false, borderDash: [4,2] },
+    ], v => v.toFixed(1)));
+    mk('c3c', barCfg(TEAMS, [
+      { label: 'ESG Reputation R8', data: D.esgR8,
+        backgroundColor: TEAMS.map(t => t === 'GREEN' ? '#C41230' : '#ccc'), borderRadius: 2 },
+    ], { leg: false, yFmt: v => v.toFixed(2) }));
+    mk('c3d', lineCfg(['R5','R6','R7','R8'], [
+      { label: 'GREEN',        data: [7000,7200,7400,7600], borderColor: '#C41230', borderWidth: 3, fill: false },
+      { label: 'Market max.',  data: D.wageMax,             borderColor: '#aaa',    borderWidth: 1.5, fill: false, borderDash: [4,2] },
+      { label: 'Market min.',  data: D.wageMin,             borderColor: '#ddd',    borderWidth: 1,   fill: false, borderDash: [2,2] },
+    ], v => '$' + (v / 1000).toFixed(1) + 'k'));
+  }
+}
+
+function buildMarket() {
+  const vt = TEAMS.filter(t => vis.has(t));
+  mk('c2a', barCfg(['R5','R6','R7','R8'],
+    vt.map(t => ({
+      label: t,
+      data: ['R5','R6','R7','R8'].map(r => D.allrev[r][TEAMS.indexOf(t)]),
+      backgroundColor: TC[t] + 'cc', borderColor: TC[t], borderWidth: t === 'GREEN' ? 2 : 0.5,
+    })),
+    { yFmt: v => '$' + v + 'M' }
+  ));
+  const sorted = [...TEAMS].map((t, idx) => ({ t, v: D.tsrF[idx] })).sort((a, b) => b.v - a.v);
+  mk('c2b', barCfg(sorted.map(d => d.t), [
+    { label: 'Cumul. TSR (%)', data: sorted.map(d => d.v),
+      backgroundColor: sorted.map(d => d.v < 0 ? '#EF9A9A' : (d.t === 'GREEN' ? '#C41230' : '#ccc')), borderRadius: 2 },
+  ], { h: true, leg: false, yFmt: v => v + '%' }));
+}
+
+function buildToggles() {
+  const bar = document.getElementById('toggles');
+  bar.innerHTML = '';
+  TEAMS.forEach(t => {
+    const btn = document.createElement('button');
+    btn.className = 'tbtn' + (vis.has(t) ? ' on' : '');
+    btn.textContent = t;
+    btn.style.borderColor = TC[t];
+    if (vis.has(t)) { btn.style.color = TC[t]; btn.style.background = TC[t] + '18'; }
+    btn.onclick = () => {
+      if (vis.has(t)) { vis.delete(t); btn.classList.remove('on'); btn.style.color = ''; btn.style.background = ''; }
+      else            { vis.add(t);    btn.classList.add('on');    btn.style.color = TC[t]; btn.style.background = TC[t] + '18'; }
+      buildMarket();
+    };
+    bar.appendChild(btn);
+  });
+}
+
+const pages = document.querySelectorAll('.page');
+const tabs  = document.querySelectorAll('.ntab');
+
+function show(i) {
+  pages.forEach((p, j) => p.classList.toggle('active', j === i));
+  tabs.forEach( (t, j) => t.classList.toggle('active', j === i));
+  setTimeout(() => {
+    if (i === 2 && !built[2]) buildToggles();
+    buildTab(i);
+  }, 30);
+}
+
+window.addEventListener('load', () => buildTab(0));
+</script>
+</body>
+</html>
