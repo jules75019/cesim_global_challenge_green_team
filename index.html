@@ -51,6 +51,7 @@ table.dt tr:nth-child(even) td{background:#fafafa}
 .val-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
 .val-kpi{border-top-color:#2e7d32!important}
 .val-kpi .kval{color:#2e7d32}
+.inv3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
 .icard{border-radius:4px;overflow:hidden;border:1px solid var(--bdr)}
 .icard.rec{border:2px solid var(--red)}
 .ichd{padding:14px 16px;font-size:14px;font-weight:600;display:flex;align-items:flex-start;gap:10px;line-height:1.4}
@@ -58,7 +59,7 @@ table.dt tr:nth-child(even) td{background:#fafafa}
 .icbd{padding:14px 16px;font-size:13px;color:#444;line-height:1.7;border-top:1px solid #eee}
 .im{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #eee;font-size:12px}
 .im:last-child{border-bottom:none}
-@media(max-width:900px){.kgrid{grid-template-columns:repeat(3,1fr)}.g2,.g3,.inv3{grid-template-columns:1fr}}
+@media(max-width:900px){.kgrid{grid-template-columns:repeat(3,1fr)}.g2,.g3{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -224,7 +225,6 @@ table.dt tr:nth-child(even) td{background:#fafafa}
       <div class="card-hd">Feature count evolution by segment — GREEN vs. market average (R1 to R8)</div>
       <div class="card-bd">
         <div class="cw h240"><canvas id="c2g"></canvas></div>
-        <p style="font-size:11px;color:#888;margin-top:8px">Solid lines = GREEN — Dashed lines = market average. Hydrogen market avg set to null at R8 (GREEN monopoly).</p>
       </div>
     </div>
   </div>
